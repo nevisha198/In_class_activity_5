@@ -1,0 +1,31 @@
+name: Build and Upload Artifact
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies (if any)
+      run: npm install
+
+    - name: Build project
+      run: npm run build
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: built-dist
+        path: dist/
+        retention-days: 30  # 🔁 Store for 30 days
